@@ -82,8 +82,6 @@ function ShelfView() {
       }
     };
     fetchItems();
-    setItems(inventoryItems)
-    setLoading(false)
   }, []);
 
   const groupedItems = items.reduce((shelves, item) => {
