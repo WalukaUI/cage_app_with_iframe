@@ -18,19 +18,15 @@ function FindItem() {
     const fetchItems = async () => {
       try {
             const apiIp = import.meta.env.VITE_API_IP;
-            console.log(`http://${apiIp}/items`);
             const response = await fetch(`http://${apiIp}/items`);
 
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
-          console.log(response);
-          
         }
         const data = await response.json();
         setItems(data);
         setLoading(false);
       } catch (err) {
-        console.log(err);
         setError(err.message);
         setLoading(false);
       }

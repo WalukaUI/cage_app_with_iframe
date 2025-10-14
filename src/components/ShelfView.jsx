@@ -69,25 +69,16 @@ function ShelfView() {
     const fetchItems = async () => {
       try {
             const apiIp = import.meta.env.VITE_API_IP;
-            console.log("==================================");
-            console.log(`http://${apiIp}/items`);
-            console.log("==================================");
-            //const response =  await fetch(`http://${apiIp}/items`);
-            //const response =  await fetch("http://10.227.163.73/items");
-            const response = await fetch('/api/items');
+            const response =  await fetch(`http://${apiIp}/items`);
           
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        console.log("-------------------------------");
-        console.log(response);
-        console.log("-------------------------------");
+
         const data = await response.json();
-        console.log(data);
         setItems(data);
         setLoading(false);
       } catch (err) {
-        console.log(err);
         setError(err.message);
         setLoading(false);
       }
