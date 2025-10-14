@@ -72,7 +72,7 @@ function ShelfView() {
             console.log(`http://${apiIp}/items`);
             //const response =  await fetch(`http://${apiIp}/items`);
             //const response =  await fetch("http://10.227.163.73/items");
-            const response = await fetch('/api/local/items');
+            const response = await fetch('/api/items');
           
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);

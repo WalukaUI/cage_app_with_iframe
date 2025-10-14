@@ -1,5 +1,5 @@
-# [[redirects]]
-#   from = "/api/*"
-#   to = "http://http://10.227.163.73/:splat"
-#   status = 200
-#   force = true
+[[redirects]]
+  from = "/api/*"
+  to = "http://10.227.163.73/:splat"
+  status = 200
+  force = true
