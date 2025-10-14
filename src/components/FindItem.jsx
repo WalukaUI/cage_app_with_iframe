@@ -17,16 +17,20 @@ function FindItem() {
   useEffect(() => {
     const fetchItems = async () => {
       try {
-            // const apiIp = import.meta.env.VITE_API_IP;
-            const response = await fetch('/items');
+            const apiIp = import.meta.env.VITE_API_IP;
+            console.log(`http://${apiIp}/items`);
+            const response = await fetch(`http://${apiIp}/items`);
 
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
+          console.log(response);
+          
         }
         const data = await response.json();
         setItems(data);
         setLoading(false);
       } catch (err) {
+        console.log(err);
         setError(err.message);
         setLoading(false);
       }
@@ -86,16 +90,16 @@ function FindItem() {
                   <div className="flex-1">
                     <h3 className="text-xl text-gray-800">{item.name}</h3>
                     <p className="text-lg text-gray-700">
-                      <span className="font-semibold">Shelf:</span> <span className="font-bold text-gray-800">{item.shelfNumber}</span>,
-                      <span className="font-semibold"> Level:</span> <span className="font-bold text-gray-800">{item.levelNumber}</span>,
-                      <span className="font-semibold"> Bin:</span> <span className="font-bold text-gray-800">{item.binNumber}</span>
+                      <span className="font-semibold">Shelf:</span> <span className="font-bold text-gray-800">{item.shelfnumber}</span>,
+                      <span className="font-semibold"> Level:</span> <span className="font-bold text-gray-800">{item.level}</span>,
+                      <span className="font-semibold"> Bin:</span> <span className="font-bold text-gray-800">{item.bin}</span>
                     </p>
                     <p className="text-gray-600 mt-2">{item.description}</p>
                   </div>
-                  {item.imageLink && (
+                  {item.image && (
                     <div className="ml-4 flex-shrink-0">
                       <img
-                        src={item.imageLink}
+                        src={item.image}
                         alt={item.name}
                         className="h-32 w-32 object-cover rounded-md"
                       />
