@@ -17,7 +17,7 @@ const EditItemModal = ({ item, onSave, onClose }) => {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-75">
       <div className="bg-white rounded-lg shadow-xl p-8 w-full max-w-md">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-2xl font-bold">Edit Item: {item.name}</h3>
+          <h3 className="text-2xl font-bold">Edit Item: {item.title}</h3>
           <button onClick={onClose} className="text-gray-500 hover:text-gray-800">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -29,8 +29,8 @@ const EditItemModal = ({ item, onSave, onClose }) => {
             <label className="block text-gray-700 font-semibold mb-1">Name</label>
             <input
               type="text"
-              name="name"
-              value={editedItem.name}
+              name="title"
+              value={editedItem.title}
               onChange={handleChange}
               className="w-full p-2 border border-gray-300 rounded-md"
               required
@@ -39,8 +39,8 @@ const EditItemModal = ({ item, onSave, onClose }) => {
           <div>
             <label className="block text-gray-700 font-semibold mb-1">Description</label>
             <textarea
-              name="description"
-              value={editedItem.description}
+              name="content"
+              value={editedItem.content}
               onChange={handleChange}
               className="w-full p-2 border border-gray-300 rounded-md h-24"
             ></textarea>
@@ -49,8 +49,8 @@ const EditItemModal = ({ item, onSave, onClose }) => {
             <label className="block text-gray-700 font-semibold mb-1">Image Link</label>
             <input
               type="text"
-              name="imageLink"
-              value={editedItem.imageLink}
+              name="image"
+              value={editedItem.image}
               onChange={handleChange}
               className="w-full p-2 border border-gray-300 rounded-md"
             />
@@ -58,15 +58,15 @@ const EditItemModal = ({ item, onSave, onClose }) => {
           <div className="grid grid-cols-3 gap-4">
             <div>
               <label className="block text-gray-700 font-semibold mb-1">Shelf</label>
-              <input type="number" name="shelfNumber" value={editedItem.shelfNumber} onChange={handleChange} className="w-full p-2 border rounded-md" />
+              <input type="number" name="shelfnumber" value={editedItem.shelfnumber} onChange={handleChange} className="w-full p-2 border rounded-md" />
             </div>
             <div>
               <label className="block text-gray-700 font-semibold mb-1">Level</label>
-              <input type="number" name="levelNumber" value={editedItem.levelNumber} onChange={handleChange} className="w-full p-2 border rounded-md" />
+              <input type="number" name="level" value={editedItem.level} onChange={handleChange} className="w-full p-2 border rounded-md" />
             </div>
             <div>
               <label className="block text-gray-700 font-semibold mb-1">Bin</label>
-              <input type="number" name="binNumber" value={editedItem.binNumber} onChange={handleChange} className="w-full p-2 border rounded-md" />
+              <input type="number" name="bin" value={editedItem.bin} onChange={handleChange} className="w-full p-2 border rounded-md" />
             </div>
           </div>
           <div className="flex justify-end space-x-2 mt-4">

@@ -3,12 +3,12 @@ import SearchIframe from './SearchIframe';
 
 function CreateItem() {
   const [formData, setFormData] = useState({
-    name: '',
-    shelfNumber: '',
-    levelNumber: '',
-    imageLink: '',
-    binNumber: '',
-    description: '',
+    title: '',
+    shelfnumber: '',
+    level: '',
+    image: '',
+    bin: '',
+    content: '',
   });
 
   const [nameSuggestions, setNameSuggestions] = useState([]);
@@ -33,14 +33,14 @@ function CreateItem() {
   
   // Debounce the name suggestion fetch call
   useEffect(() => {
-    if (formData.name.length > 1) {
+    if (formData.title.length > 1) {
       if (nameTimeoutRef.current) {
         clearTimeout(nameTimeoutRef.current);
       }
       nameTimeoutRef.current = setTimeout(async () => {
         try {
           const response = await fetch(
-            `/api/google/complete/search?client=firefox&q=${formData.name}`
+            `/api/google/complete/search?client=firefox&q=${formData.title}`
           );
           if (response.ok) {
             const data = await response.json();
@@ -54,7 +54,7 @@ function CreateItem() {
     } else {
       setNameSuggestions([]);
     }
-  }, [formData.name]);
+  }, [formData.title]);
 
   const handleNameSuggestionClick = (suggestion) => {
     setFormData((prevData) => ({ ...prevData, name: suggestion }));
@@ -77,7 +77,7 @@ function CreateItem() {
 
       if (response.ok) {
         alert('Item created successfully!');
-        setFormData({ name: '', shelfNumber: '', levelNumber: '', imageLink: '', binNumber: '', description: '' });
+        setFormData({ title: '', shelfnumber: '', level: '', image: '', bin: '', content: '' });
       } else {
         alert('Failed to create item.');
       }
@@ -107,8 +107,8 @@ function CreateItem() {
             <label className="block text-gray-700 font-semibold mb-1">Name</label>
             <input
               type="text"
-              name="name"
-              value={formData.name}
+              name="title"
+              value={formData.title}
               onChange={handleChange}
               onFocus={() => setShowNameSuggestions(true)}
               onBlur={() => setTimeout(() => setShowNameSuggestions(false), 200)}
@@ -133,7 +133,7 @@ function CreateItem() {
           </div>
           <div>
             <label className="block text-gray-700 font-semibold mb-1">Shelf Number</label>
-            <select name="shelfNumber" value={formData.shelfNumber} onChange={handleChange} className={selectClasses} required>
+            <select name="shelfnumber" value={formData.shelfnumber} onChange={handleChange} className={selectClasses} required>
               <option value="">Select a shelf</option>
               {shelfNumbers.map(number => (
                 <option key={number} value={number}>{number}</option>
@@ -142,7 +142,7 @@ function CreateItem() {
           </div>
           <div>
             <label className="block text-gray-700 font-semibold mb-1">Level Number</label>
-            <select name="levelNumber" value={formData.levelNumber} onChange={handleChange} className={selectClasses}>
+            <select name="level" value={formData.level} onChange={handleChange} className={selectClasses}>
               <option value="">Select a level</option>
               {levelNumbers.map(number => (
                 <option key={number} value={number}>{number}</option>
@@ -151,7 +151,7 @@ function CreateItem() {
           </div>
           <div>
             <label className="block text-gray-700 font-semibold mb-1">Bin Number</label>
-            <select name="binNumber" value={formData.binNumber} onChange={handleChange} className={selectClasses}>
+            <select name="bin" value={formData.bin} onChange={handleChange} className={selectClasses}>
               <option value="">Select a bin</option>
               {binNumbers.map(number => (
                 <option key={number} value={number}>{number}</option>
@@ -162,8 +162,8 @@ function CreateItem() {
             <label className="block text-gray-700 font-semibold mb-1">Image Link</label>
             <input
               type="text"
-              name="imageLink"
-              value={formData.imageLink}
+              name="image"
+              value={formData.image}
               onChange={handleChange}
               onFocus={handleImageInputFocus}
               onBlur={handleImageInputBlur}
@@ -172,15 +172,15 @@ function CreateItem() {
           </div>
           <div>
             <label className="block text-gray-700 font-semibold mb-1">Description</label>
-            <textarea name="description" value={formData.description} onChange={handleChange} className={`${inputClasses} h-24`}></textarea>
+            <textarea name="content" value={formData.content} onChange={handleChange} className={`${inputClasses} h-24`}></textarea>
           </div>
           <button type="submit" className="w-full bg-salmonPink text-white py-2 rounded-md hover:bg-red-400 transition-colors">Add Item</button>
         </form>
       </div>
       
       {/* Display iframe when input is focused and name is not empty */}
-      {showIframe && formData.name && (
-        <SearchIframe searchTerm={formData.name} />
+      {showIframe && formData.title && (
+        <SearchIframe searchTerm={formData.title} />
       )}
     </div>
   );

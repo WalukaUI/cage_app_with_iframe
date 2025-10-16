@@ -37,14 +37,32 @@ function FindItem() {
   useEffect(() => {
     setFilteredItems(
       items.filter((item) =>
-        item.name.toLowerCase().includes(searchQuery.toLowerCase())
+        item.title.toLowerCase().includes(searchQuery.toLowerCase())
       )
     );
   }, [searchQuery, items]);
 
   const handleDeleteItem = (id) => {
     if (window.confirm("Are you sure you want to delete this item?")) {
-      setItems(items.filter(item => item.id !== id));
+      const deleteItem = async () => {
+      try {
+        const apiIp = import.meta.env.VITE_API_IP;
+        const response = await fetch(`http://${apiIp}/items/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        setItems(items.filter(item => item.id !== id));
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+    deleteItem()
     }
   };
 
@@ -54,9 +72,28 @@ function FindItem() {
   };
 
   const handleSaveEdit = (updatedItem) => {
-    setItems(items.map(item => item.id === updatedItem.id ? updatedItem : item));
-    setIsModalOpen(false);
-    setItemToEdit(null);
+      const saveEditedItem = async () => {
+      try {
+        const apiIp = import.meta.env.VITE_API_IP;
+        const response = await fetch(`http://${apiIp}/items/${updatedItem.id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedItem),
+      });
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+      setItems(items.map(item => item.id === updatedItem.id ? updatedItem : item));
+      setIsModalOpen(false);
+      setItemToEdit(null);
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+    saveEditedItem()
   };
 
   if (loading) return <div className="text-center">Loading items...<Spinner/></div>;
@@ -84,19 +121,19 @@ function FindItem() {
               >
                 <div className="flex items-start">
                   <div className="flex-1">
-                    <h3 className="text-xl text-gray-800">{item.name}</h3>
+                    <h3 className="text-xl text-gray-800">{item.title}</h3>
                     <p className="text-lg text-gray-700">
                       <span className="font-semibold">Shelf:</span> <span className="font-bold text-gray-800">{item.shelfnumber}</span>,
                       <span className="font-semibold"> Level:</span> <span className="font-bold text-gray-800">{item.level}</span>,
                       <span className="font-semibold"> Bin:</span> <span className="font-bold text-gray-800">{item.bin}</span>
                     </p>
-                    <p className="text-gray-600 mt-2">{item.description}</p>
+                    <p className="text-gray-600 mt-2">{item.content}</p>
                   </div>
                   {item.image && (
                     <div className="ml-4 flex-shrink-0">
                       <img
                         src={item.image}
-                        alt={item.name}
+                        alt={item.title}
                         className="h-32 w-32 object-cover rounded-md"
                       />
                     </div>
